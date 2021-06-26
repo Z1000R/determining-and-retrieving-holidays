@@ -23,6 +23,9 @@ Option Explicit
 '            「平成三十二年東京オリンピック競技大会・東京パラリンピック競技大会特別措置法等の一部を改正する法律の施行」への対応
 '            2021/06/26
 '            getCompanyHolidayInfoWNExclude 内の不要行削除
+'            メソッド名変更
+'            getNationalHolidayName -> getCompanyHolidayName
+'            getNationalHolidays -> getCompanyHolidays
 
 '//////////////////////////////////////////////////
 '                   参照設定
@@ -539,14 +542,14 @@ Public Function isCompanyHoliday2(ByVal dtDate As Date, ByRef sHolidayName As St
 
     isCompanyHoliday2 = isCompanyHoliday(dtDateW)
 
-    sHolidayName = getNationalHolidayName(dtDateW)
+    sHolidayName = getCompanyHolidayName(dtDateW)
 
 End Function
 
 '//////////////////////////////////////////////////
 '指定年の会社休日を配列に格納して返す
 '//////////////////////////////////////////////////
-Public Function getNationalHolidays(ByVal lYear As Long, ByRef dtHolidays() As Date) As Long
+Public Function getCompanyHolidays(ByVal lYear As Long, ByRef dtHolidays() As Date) As Long
 
     Dim dtHolidaysW()   As Date
     Dim lHolidays       As Long
@@ -571,14 +574,14 @@ Public Function getNationalHolidays(ByVal lYear As Long, ByRef dtHolidays() As D
     Erase dtHolidays
     dtHolidays = dtHolidaysW
 
-    getNationalHolidays = lHolidays
+    getCompanyHolidays = lHolidays
 
 End Function
 
 '//////////////////////////////////////////////////
 '指定日の会社休日名を返す
 '//////////////////////////////////////////////////
-Public Function getNationalHolidayName(ByVal dtHoliday As Date) As String
+Public Function getCompanyHolidayName(ByVal dtHoliday As Date) As String
 
     Dim dtDateW As Date
 
@@ -586,7 +589,7 @@ Public Function getNationalHolidayName(ByVal dtHoliday As Date) As String
     dtDateW = DateSerial(Year(dtHoliday), Month(dtHoliday), Day(dtHoliday))
 
     If isCompanyHoliday(dtDateW) = True Then
-        getNationalHolidayName = dicHoliday_.Item(dtDateW)
+        getCompanyHolidayName = dicHoliday_.Item(dtDateW)
     End If
 
 End Function
@@ -1061,5 +1064,3 @@ Private Sub qSort(ByRef dtHolidays() As Date, ByVal lLeft As Long, ByVal lRight 
     End If
 
 End Sub
-
-
