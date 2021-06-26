@@ -21,7 +21,8 @@ Option Explicit
 '            天皇誕生日（2020/2/23）対応済み
 '            2020/11/28
 '            「平成三十二年東京オリンピック競技大会・東京パラリンピック競技大会特別措置法等の一部を改正する法律の施行」への対応
-
+'            2021/06/26
+'            getCompanyHolidayInfoWNExclude 内の不要行削除
 
 '//////////////////////////////////////////////////
 '                   参照設定
@@ -449,8 +450,6 @@ Private Sub getCompanyHolidayInfoWNExclude(ByVal lLastYear As Long, ByRef dtExcl
     '適用終了年；9999は、現在も適用中
     sFixWNC(0) = "08,4,7,1,2000,9999,"
 
-    ReDim uFixWNC(UBound(sFixWNC))
-
     For i = 0 To UBound(sFixWNC)
         sResult = Split(sFixWNC(i), ",")
 
@@ -540,14 +539,14 @@ Public Function isCompanyHoliday2(ByVal dtDate As Date, ByRef sHolidayName As St
 
     isCompanyHoliday2 = isCompanyHoliday(dtDateW)
 
-    sHolidayName = getCompanyHolidayName(dtDateW)
+    sHolidayName = getNationalHolidayName(dtDateW)
 
 End Function
 
 '//////////////////////////////////////////////////
 '指定年の会社休日を配列に格納して返す
 '//////////////////////////////////////////////////
-Public Function getCompanyHolidays(ByVal lYear As Long, ByRef dtHolidays() As Date) As Long
+Public Function getNationalHolidays(ByVal lYear As Long, ByRef dtHolidays() As Date) As Long
 
     Dim dtHolidaysW()   As Date
     Dim lHolidays       As Long
@@ -572,14 +571,14 @@ Public Function getCompanyHolidays(ByVal lYear As Long, ByRef dtHolidays() As Da
     Erase dtHolidays
     dtHolidays = dtHolidaysW
 
-    getCompanyHolidays = lHolidays
+    getNationalHolidays = lHolidays
 
 End Function
 
 '//////////////////////////////////////////////////
 '指定日の会社休日名を返す
 '//////////////////////////////////////////////////
-Public Function getCompanyHolidayName(ByVal dtHoliday As Date) As String
+Public Function getNationalHolidayName(ByVal dtHoliday As Date) As String
 
     Dim dtDateW As Date
 
@@ -587,7 +586,7 @@ Public Function getCompanyHolidayName(ByVal dtHoliday As Date) As String
     dtDateW = DateSerial(Year(dtHoliday), Month(dtHoliday), Day(dtHoliday))
 
     If isCompanyHoliday(dtDateW) = True Then
-        getCompanyHolidayName = dicHoliday_.Item(dtDateW)
+        getNationalHolidayName = dicHoliday_.Item(dtDateW)
     End If
 
 End Function
@@ -1062,3 +1061,5 @@ Private Sub qSort(ByRef dtHolidays() As Date, ByVal lLeft As Long, ByVal lRight 
     End If
 
 End Sub
+
+
